@@ -199,19 +199,19 @@ namespace Uppgift1
                         SearchListName(new ShopHandler().GetAllItems(), searchName);
                         break;
                     case '6':
-                        Console.WriteLine("Enter search price:");
+                        Console.WriteLine("Enter search price lower than:");
                         string searchPriceLower = Console.ReadLine().Replace('.', ',' );
                         sp = double.Parse(searchPriceLower);
                         SearchListPriceLower(new ShopHandler().GetAllItems(), sp);
                         break;
                     case '7':
-                        Console.WriteLine("Enter search price:");
+                        Console.WriteLine("Enter search price higher than:");
                         string searchPriceHigher = Console.ReadLine().Replace('.', ',');
                         sp = double.Parse(searchPriceHigher);
                         SearchListPriceHigher(new ShopHandler().GetAllItems(), sp);
                         break;
                     case '8':
-                        Console.WriteLine("Enter search price:");
+                        Console.WriteLine("Enter search exact price:");
                         searchPrice = Console.ReadLine().Replace('.', ',');
                         Console.WriteLine("Enter product name:");
                         searchName = Console.ReadLine();
@@ -219,10 +219,14 @@ namespace Uppgift1
                         SearchListPriceName(new ShopHandler().GetAllItems(),searchName, sp);
                         break;
                     case '9':
-                        Console.Write("Enter category (Food, Drinks, )");
+                        Console.Write("Enter category (Food, Drinks, Bread, Books, Sport)");
                         string strCat = Console.ReadLine();
 
                         if (strCat.Equals("Food")) searchCat = Category.Food;
+                        else if (strCat.Equals("Drinks")) searchCat = Category.Drinks;
+                        else if (strCat.Equals("Bread")) searchCat = Category.Bread;
+                        else if (strCat.Equals("Books")) searchCat = Category.Books;
+                        else if (strCat.Equals("Sport")) searchCat = Category.Sport;
 
                         Console.WriteLine("Enter search price:");
                         searchPrice = Console.ReadLine().Replace('.', ',');
