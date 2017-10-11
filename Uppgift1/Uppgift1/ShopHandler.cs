@@ -28,6 +28,98 @@ namespace Uppgift1
             return inventory.GetAllItems();
         }
 
+        static void SearchList()
+        {
+            //Console.WriteLine("Item List:" + itemList.Capacity);
+            Console.WriteLine("Search ");
+
+
+
+        }
+
+        static void SortListPrice(IEnumerable<Item> items)
+        {
+            IEnumerable<Item> myQuery =
+                from i in items
+                orderby i.Price
+                select i;
+
+            Console.WriteLine("Sorting");
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+
+
+
+
+        }
+
+        static void SortListName(IEnumerable<Item> items)
+        {
+            IEnumerable<Item> myQuery =
+                from i in items
+                orderby i.Name
+                select i;
+
+            Console.WriteLine("Sorting");
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+
+
+
+
+        }
+
+        static void SortListPriceName(IEnumerable<Item> items)
+        {
+            IEnumerable<Item> myQuery =
+                from i in items
+                orderby i.Name
+                orderby i.Price
+                select i;
+
+            Console.WriteLine("Sorting");
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+
+
+
+
+        }
+
+        static void SortListPriceCat(IEnumerable<Item> items)
+        {
+            IEnumerable<Item> myQuery =
+                from i in items
+                orderby i.Price
+                orderby i.Cat
+                select i;
+
+            Console.WriteLine("Sorting");
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+
+
+
+
+        }
+
+
+        static void SearchListName(IEnumerable<Item> items, string search)
+        {
+            IEnumerable<Item> myQuery = items.Where(i => i.Name.Contains(search));
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+        }
 
 
     }

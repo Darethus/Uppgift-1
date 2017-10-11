@@ -10,22 +10,17 @@ namespace Uppgift1
     {
         
 
-        static void SearchList()
-        {
-            //Console.WriteLine("Item List:" + itemList.Capacity);
-            Console.WriteLine("Search ");
+        //static void SearchList()
+        //{
+        //    //Console.WriteLine("Item List:" + itemList.Capacity);
+        //    Console.WriteLine("Search ");
 
 
 
-        }
+        //}
 
         static void SortListPrice(IEnumerable<Item> items)
         {
-            foreach (Item i in items)
-            {
-                Console.WriteLine(i.ToString());
-            }
-
             IEnumerable<Item> myQuery =
                 from i in items
                 orderby i.Price
@@ -44,11 +39,6 @@ namespace Uppgift1
 
         static void SortListName(IEnumerable<Item> items)
         {
-            foreach (Item i in items)
-            {
-                Console.WriteLine(i.ToString());
-            }
-
             IEnumerable<Item> myQuery =
                 from i in items
                 orderby i.Name
@@ -67,15 +57,10 @@ namespace Uppgift1
 
         static void SortListPriceName(IEnumerable<Item> items)
         {
-            foreach (Item i in items)
-            {
-                Console.WriteLine(i.ToString());
-            }
-
             IEnumerable<Item> myQuery =
                 from i in items
-                orderby i.Price
                 orderby i.Name
+                orderby i.Price
                 select i;
 
             Console.WriteLine("Sorting");
@@ -91,11 +76,6 @@ namespace Uppgift1
 
         static void SortListPriceCat(IEnumerable<Item> items)
         {
-            foreach (Item i in items)
-            {
-                Console.WriteLine(i.ToString());
-            }
-
             IEnumerable<Item> myQuery =
                 from i in items
                 orderby i.Price
@@ -113,28 +93,58 @@ namespace Uppgift1
 
         }
 
-        static void SortListPrice(IEnumerable<Item> items)
+       
+        static void SearchListName(IEnumerable<Item> items, string searchName)
         {
-            foreach (Item i in items)
-            {
-                Console.WriteLine(i.ToString());
-            }
-
-            IEnumerable<Item> myQuery =
-                from i in items
-                orderby i.Price
-                select i;
-
-            Console.WriteLine("Sorting");
+            IEnumerable<Item> myQuery = items.Where(i => i.Name.Contains(searchName));
             foreach (Item i in myQuery)
             {
                 Console.WriteLine(i.ToString());
             }
-
-
-
-
         }
+
+
+        static void SearchListPriceLower(IEnumerable<Item> items, double searchPrice)
+        {
+            IEnumerable<Item> myQuery = items.Where(i => i.Price <= (searchPrice));
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+        }
+
+
+
+        static void SearchListPriceHigher(IEnumerable<Item> items, double searchPrice)
+        {
+            IEnumerable<Item> myQuery = items.Where(i => i.Price >= (searchPrice));
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+        }
+
+
+        static void SearchListPriceName(IEnumerable<Item> items, string searchName, double searchPrice)
+        {
+            IEnumerable<Item> myQuery = items.Where(i => i.Name.Contains(searchName)).Where(i => i.Price == searchPrice);
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+        }
+
+
+
+        static void SearchListPriceNameCat(IEnumerable<Item> items, Category searchCat, string searchName, double searchPrice)
+        {
+            IEnumerable<Item> myQuery = items.Where(i => i.Cat.Equals(searchCat)).Where( i => i.Name.Contains (searchName)).Where(i => i.Price == searchPrice);
+            foreach (Item i in myQuery)
+            {
+                Console.WriteLine(i.ToString());
+            }
+        }
+
 
         static void Main(string[] args)
         {
@@ -143,12 +153,17 @@ namespace Uppgift1
 
             while (true)
             { 
-                Console.WriteLine("Please navigate through the menue by inputting the number \n(1, 2, 3, 4, 5) of your choice"
-                    + "\n1. Search"
-                    + "\n2. Sort by price"
-                    + "\n3. Sort by name"
-                    + "\n4. Sort by price and name"
-                    + "\n5. Sort by priced and category");
+                Console.WriteLine("Please navigate through the menue by inputting the number \n(1, 2, 3, 4, 5, 6, 7, 8, 9) of your choice"
+                    
+                    + "\n1. Sort by price"
+                    + "\n2. Sort by name"
+                    + "\n3. Sort by price and name"
+                    + "\n4. Sort by priced and category"
+                    + "\n5. Search by name"
+                    + "\n6. Search by price lower than"
+                    + "\n7. Search by price higher than"
+                    + "\n8. Search by price and name"
+                    + "\n9. Search by price and name within a category");
                 char input = ' ';
                 try
                 {
@@ -159,28 +174,67 @@ namespace Uppgift1
                     Console.Clear();
                     Console.WriteLine("Please enter some input!");
                 }
-
+                Category searchCat = Category.Food;
+                string searchName;
+                string searchPrice;
+                double sp;
                 switch (input)
                 {
+                    
                     case '1':
-                        SearchList();
-                        break;
-                    case '2':
                         SortListPrice(new ShopHandler().GetAllItems());
                         break;
-                    case '3':
+                    case '2':
                         SortListName(new ShopHandler().GetAllItems());
                         break;
-                    case '4':
+                    case '3':
                         SortListPriceName(new ShopHandler().GetAllItems());
                         break;
-                    case '5':
+                    case '4':
                         SortListPriceCat(new ShopHandler().GetAllItems());
+                        break;
+                    case '5':
+                        Console.WriteLine("Enter search product name:");
+                        searchName = Console.ReadLine();
+                        SearchListName(new ShopHandler().GetAllItems(), searchName);
+                        break;
+                    case '6':
+                        Console.WriteLine("Enter search price:");
+                        string searchPriceLower = Console.ReadLine().Replace('.', ',' );
+                        sp = double.Parse(searchPriceLower);
+                        SearchListPriceLower(new ShopHandler().GetAllItems(), sp);
+                        break;
+                    case '7':
+                        Console.WriteLine("Enter search price:");
+                        string searchPriceHigher = Console.ReadLine().Replace('.', ',');
+                        sp = double.Parse(searchPriceHigher);
+                        SearchListPriceHigher(new ShopHandler().GetAllItems(), sp);
+                        break;
+                    case '8':
+                        Console.WriteLine("Enter search price:");
+                        searchPrice = Console.ReadLine().Replace('.', ',');
+                        Console.WriteLine("Enter product name:");
+                        searchName = Console.ReadLine();
+                        sp = double.Parse(searchPrice);
+                        SearchListPriceName(new ShopHandler().GetAllItems(),searchName, sp);
+                        break;
+                    case '9':
+                        Console.Write("Enter category (Food, Drinks, )");
+                        string strCat = Console.ReadLine();
+
+                        if (strCat.Equals("Food")) searchCat = Category.Food;
+
+                        Console.WriteLine("Enter search price:");
+                        searchPrice = Console.ReadLine().Replace('.', ',');
+                        Console.WriteLine("Enter product name:");
+                        searchName = Console.ReadLine();
+                        sp = double.Parse(searchPrice);
+                        SearchListPriceNameCat(new ShopHandler().GetAllItems(), searchCat, searchName, sp);
                         break;
                     case '0':
                         return;
                     default:
-                        Console.WriteLine("Please enter some valid input (0, 1, 2)");
+                        Console.WriteLine("Please enter some valid input (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)");
                         break;
                 }
             }
